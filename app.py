@@ -16,9 +16,10 @@ def search():
     else:
         search_result = search_for_information(phone_number=search_term)
     if search_result:
-        tiles = get_tile_information(input_type=input_type, search_tuple=search_result)
-    
-    return str(search_result)
+        tiles = [get_tile_information(input_type=input_type, search_tuple=search_result)]
+    else:
+        return []
+    return str(tiles)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)

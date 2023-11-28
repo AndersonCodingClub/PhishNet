@@ -41,7 +41,7 @@ def _get_full_company_name(unformatted_company_name: str) -> str:
     Returns:
         str: Formatted company name from file
     """
-    with open(os.path.join('data', unformatted_company_name), 'r') as f:
+    with open(os.path.join('data', unformatted_company_name+'.txt'), 'r') as f:
         content = f.read()
     return content.split('\n')[0].split('name: ')[-1]
 
@@ -95,7 +95,24 @@ def search_for_information(email: str=None, phone_number: str=None) -> Tuple:
             formatted_phone_number = formatted_phone_number[(len(formatted_phone_number) - 10):]
         return _find_match(input_string=formatted_phone_number, search_dict=phone_numbers)
     
-def get_tile_information(input_type: str, search_tuple: Tuple):
+def get_all_tile_information() -> List[Dict]:
+    """Get tile dictionaries for all companies
+
+    Returns:
+        List[Dict]: List of dictionaries with information
+    """
+    tiles = []
+    full_email_dict, full_phone_number_dict = _get_data()
+    for key in full_email_dict.keys():
+        emails = full_email_dict[key]
+        phone_numbers = full_phone_number_dict[key]
+        formatted_name = _get_full_company_name(key)
+        
+        tiles.append({'name': formatted_name, 'emails': ', '.join(emails), 'phone_numbers': ', '.join(phone_numbers)})
+        
+    return tiles
+    
+def get_tile_information(input_type: str, search_tuple: Tuple) -> Dict:
     """Get information for an entry
 
     Args:
@@ -105,9 +122,15 @@ def get_tile_information(input_type: str, search_tuple: Tuple):
     Returns:
         Dict: Dictionary of information about the place
     """
-    company_name, _ = search_tuple
+    company_name, index = search_tuple
     
     full_email_dict, full_phone_number_dict = _get_data()
     emails, phone_numbers = full_email_dict[company_name], full_phone_number_dict[company_name]
+    if input_type == 'email':
+        emails[index] = f'<mark>{emails[index]}</mark>'
+    else:
+        phone_numbers[index] = f'<mark>{phone_numbers[index]}</mark>'
+    
+    formatted_company_name = _get_full_company_name(company_name)
 
-    return emails
+    return {'name': formatted_company_name, 'emails': ', '.join(emails), 'phone_numbers': ', '.join(phone_numbers)}
