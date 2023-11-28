@@ -1,5 +1,5 @@
 from search import get_tile_information, get_input_type, search_for_information, get_all_tile_information
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
