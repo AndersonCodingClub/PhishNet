@@ -32,6 +32,19 @@ def _get_data() -> List[Dict]:
         
     return [emails, phone_numbers]
 
+def _get_full_company_name(unformatted_company_name: str) -> str:
+    """Get full company name from unformatted company name
+
+    Args:
+        unformatted_company_name (str): Company name returned by search function
+
+    Returns:
+        str: Formatted company name from file
+    """
+    with open(os.path.join('data', unformatted_company_name), 'r') as f:
+        content = f.read()
+    return content.split('\n')[0].split('name: ')[-1]
+
 def _find_match(input_string: str, search_dict: Dict) -> Tuple:
     """Helper function to search through dictionary for a given string
 
@@ -46,6 +59,19 @@ def _find_match(input_string: str, search_dict: Dict) -> Tuple:
         if input_string in search_dict[key]:
             return (key, search_dict[key].index(input_string))
 
+def get_input_type(input_string: str) -> str:
+    """Get whether input is an email or phone number
+
+    Args:
+        input_string (str): User-inputted string
+
+    Returns:
+        str: 'email' or 'phone'
+    """
+    if '@' in input_string:
+        return 'email'
+    return 'phone'
+
 def search_for_information(email: str=None, phone_number: str=None) -> Tuple:
     """Search for whether email or phone number is in list of trusted numbers
     
@@ -54,7 +80,7 @@ def search_for_information(email: str=None, phone_number: str=None) -> Tuple:
         phone_number (str, optional): User-entered phone number to search for. Defaults None.
 
     Returns:
-        Tuple: If match is found, tuple with structure (company, index of email in company email list) returned. Otherwise None.
+        Tuple: If match is found, tuple with structure (company, index of email in company data in list) returned. Otherwise None.
     """
     emails, phone_numbers = _get_data()
     
@@ -68,3 +94,20 @@ def search_for_information(email: str=None, phone_number: str=None) -> Tuple:
             # Catch when number with format 1-###-###-#### is entered by removing the leading 1
             formatted_phone_number = formatted_phone_number[(len(formatted_phone_number) - 10):]
         return _find_match(input_string=formatted_phone_number, search_dict=phone_numbers)
+    
+def get_tile_information(input_type: str, search_tuple: Tuple):
+    """Get information for an entry
+
+    Args:
+        input_type (str): Whether the match is an email or phone number
+        search_tuple (Tuple): Tuple with structure (company, index of data in list)
+        
+    Returns:
+        Dict: Dictionary of information about the place
+    """
+    company_name, _ = search_tuple
+    
+    full_email_dict, full_phone_number_dict = _get_data()
+    emails, phone_numbers = full_email_dict[company_name], full_phone_number_dict[company_name]
+
+    return emails
