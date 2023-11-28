@@ -9,15 +9,44 @@
     </head>
     <body>
         <div class="header"> 
-            <h1> PhishNet </h1>
+            <a href="/" class="menu-a-tag"><h1>PhishNet</h1></a>
             <form action='/search'>
-                <input name="search-input" class="search" type="text" placeholder="Enter an email or phone number..." autocomplete="off">
+                <input name="search-input" class="search" type="text" placeholder="Enter an email or phone number..." autocomplete="off" value={{ query }}>
             </form>
         </div>
-        <div id="box-container">
-            <div class="box">
-                <h1> hello bob, you are not being scammed right now </h1>
+        {% if is_search %}
+            <div id="result-description-container">
+                {% if results_found %}
+                    {% if input_type == "email" %}
+                        <p class="result-description">Matching support email found! </p>
+                    {% else%}
+                        <p class="result-description">Matching support phone number found! </p>
+                    {% endif %}
+                {% else %}
+                    {% if input_type == "email" %}
+                        <p class="result-description">No matching support emails found. Be careful!</p>
+                    {% else%}
+                        <p class="result-description">No matching support phone numbers found. Be careful!</p>
+                    {% endif %}
+                {% endif %}
             </div>
+        {% endif %}
+        {% if is_search %}
+        <div id="box-container">
+        {% else %}
+        <div id="box-container" style="margin-top: -100px;">
+        {% endif %}
+            {% for tile in tiles %}
+                <div class="box">
+                    <div class="company-name-container">
+                        <p class="company-name">{{ tile.name }}</p>
+                    </div>
+                    <div class="information-container">
+                        <p><b>Emails:</b> {{ tile.emails | safe }}</p>
+                        <p><b>Phone Numbers:</b> {{ tile.phone_numbers | safe }}</p>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </body>
 </html>

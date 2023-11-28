@@ -1,3 +1,3 @@
 name: Apple
-emails: appstore@new.itunes.com,news@insideapple.apple.com,noreply@email.apple.com,noreply@apple.com,applesupport@insideapple.apple.com,applesupport@email.apple.com
-numbers: 4089961010,8006927753,8006927753,8002752273,8006947466,4089744224,6692189647
+emails: noreply@email.apple.com,noreply@apple.com,applesupport@insideapple.apple.com,applesupport@email.apple.com
+numbers: 4089961010,8006927753,8006927753,8002752273,8006947466

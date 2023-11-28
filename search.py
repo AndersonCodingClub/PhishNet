@@ -11,7 +11,7 @@ def _get_data() -> List[Dict]:
     """
     emails = {}
     phone_numbers = {}
-    files = [file for file in os.listdir('data') if file.endswith('.txt')]
+    files = sorted([file for file in os.listdir('data') if file.endswith('.txt')])
     for file in files:
         with open(os.path.join('data', file), 'r') as f: 
             content = f.read()
@@ -44,6 +44,18 @@ def _get_full_company_name(unformatted_company_name: str) -> str:
     with open(os.path.join('data', unformatted_company_name+'.txt'), 'r') as f:
         content = f.read()
     return content.split('\n')[0].split('name: ')[-1]
+
+def _get_formatted_phone_number(phone_number: str) -> str:
+    """Add dashes to phone number for readability
+
+    Args:
+        phone_number (str): Unformatted phone number
+
+    Returns:
+        str: Phone number with dashes inserted
+    """
+    phone_number = '(' + phone_number[:3] + ') ' + phone_number[3:6] + '-' + phone_number[6:]
+    return phone_number
 
 def _find_match(input_string: str, search_dict: Dict) -> Tuple:
     """Helper function to search through dictionary for a given string
@@ -88,11 +100,8 @@ def search_for_information(email: str=None, phone_number: str=None) -> Tuple:
         email = email.lower()
         return _find_match(input_string=email, search_dict=emails)
     elif phone_number:
-        formatted_phone_number = phone_number.translate(str.maketrans('', '', string.punctuation))
-        formatted_phone_number = phone_number.replace(' ', '')
-        if len(formatted_phone_number) > 10:
-            # Catch when number with format 1-###-###-#### is entered by removing the leading 1
-            formatted_phone_number = formatted_phone_number[(len(formatted_phone_number) - 10):]
+        formatted_phone_number = phone_number.replace('-', '').replace('-', '').replace('(', '').replace(')', '')
+        formatted_phone_number = formatted_phone_number.replace(' ', '')
         return _find_match(input_string=formatted_phone_number, search_dict=phone_numbers)
     
 def get_all_tile_information() -> List[Dict]:
@@ -105,10 +114,17 @@ def get_all_tile_information() -> List[Dict]:
     full_email_dict, full_phone_number_dict = _get_data()
     for key in full_email_dict.keys():
         emails = full_email_dict[key]
-        phone_numbers = full_phone_number_dict[key]
+        phone_numbers = [_get_formatted_phone_number(phone_number) for phone_number in full_phone_number_dict[key]]
         formatted_name = _get_full_company_name(key)
         
-        tiles.append({'name': formatted_name, 'emails': ', '.join(emails), 'phone_numbers': ', '.join(phone_numbers)})
+        formatted_email_string = ', '.join(emails)
+        formatted_phone_string = ', '.join(phone_numbers)
+        if formatted_email_string == '':
+            formatted_email_string = 'none'
+        if formatted_phone_string == '':
+            formatted_phone_string = 'none'
+        
+        tiles.append({'name': formatted_name, 'emails': formatted_email_string, 'phone_numbers': formatted_phone_string})
         
     return tiles
     
@@ -125,7 +141,7 @@ def get_tile_information(input_type: str, search_tuple: Tuple) -> Dict:
     company_name, index = search_tuple
     
     full_email_dict, full_phone_number_dict = _get_data()
-    emails, phone_numbers = full_email_dict[company_name], full_phone_number_dict[company_name]
+    emails, phone_numbers = full_email_dict[company_name], [_get_formatted_phone_number(phone_number) for phone_number in full_phone_number_dict[company_name]]
     if input_type == 'email':
         emails[index] = f'<mark>{emails[index]}</mark>'
     else:

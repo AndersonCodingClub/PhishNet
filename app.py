@@ -1,11 +1,13 @@
-from search import get_tile_information, get_input_type, search_for_information
+from search import get_tile_information, get_input_type, search_for_information, get_all_tile_information
 from flask import Flask, render_template, request, session, redirect
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    tiles = get_all_tile_information()
+    
+    return render_template('index.html', tiles=tiles)
 
 @app.route('/search')
 def search():
@@ -18,8 +20,10 @@ def search():
     if search_result:
         tiles = [get_tile_information(input_type=input_type, search_tuple=search_result)]
     else:
-        return []
-    return str(tiles)
+        tiles = []
+    return render_template('index.html', tiles=tiles, is_search=True, results_found=len(tiles) > 0, query=search_term,
+                           input_type=input_type)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)

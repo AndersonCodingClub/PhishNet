@@ -1,12 +1,12 @@
+body {
+    background-color: lightsteelblue;
+    z-index: -30;
+}
+
 .header {
     text-align: center;
     margin-bottom: 200px;
     font-size: 32px;
-}
-
-body {
-    background-color: lightsteelblue;
-    z-index: -30;
 }
 
 .search {
@@ -19,20 +19,64 @@ body {
     border-color: black;
 }
 
+#result-description-container {
+    position: absolute;
+    top: 30%;
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+.result-description {
+    font-size: 30px;
+    font-weight: 600;
+}
+
 #box-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    margin-top: -40px;
-    
+    align-items: center;
+    margin-top: 0px;
 }
 
 .box {
-    width: 600px;
-    height: 300px;
+    width: 460px;
+    height: 250px;
     background-color: white;
     border-radius: 25px;
     text-align: center;
-    margin-bottom: 100px;
+    margin-bottom: 25px;
     padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
     border-color: black;
+    transition: all .2s ease-in-out;
+}
+
+.box:hover {
+    transform: scale(1.05);
+}
+
+.company-name-container {
+    margin-top: -20px;
+}
+
+.company-name {
+    font-weight: 600;
+    font-size: 35px;
+    color: black;
+}
+
+.information-container {
+    margin-top: 50px;
+    font-size: 20px;
+}
+
+.menu-a-tag {
+    all: unset;
+}
+
+.menu-a-tag:hover {
+    cursor: pointer;
+    opacity: 0.6;
 }
