@@ -1,2 +1,3 @@
-numbers: 4089961010, 8006927753, 8006927753, 8002752273, 8006947466, 4089744224, 6692189647
-emails: appstore@new.itunes.com, news@insideapple.apple.com, noreply@email.apple.com, newsdigest@insideapple.apple.com, noreply@apple.com, applesupport@insideapple.apple.com, applesupport@email.apple.com, discussions-updates@apple.com, noreply@insideicloud.icloud.com, ibooks@new.itunes.com, do_not_reply@icloud.com, no_reply@me.com, noreply@insideicloud.icloud.com, discover@new.itunes.com, itunes@new.itunes.com, do_not_reply@itunes.com, itunesu@new.itunes.com, noreply@apple.com, marketresearch@insideapple.apple.com, postmaster@mac.com
+name: Apple
+emails: appstore@new.itunes.com,news@insideapple.apple.com,noreply@email.apple.com,noreply@apple.com,applesupport@insideapple.apple.com,applesupport@email.apple.com
+numbers: 4089961010,8006927753,8006927753,8002752273,8006947466,4089744224,6692189647

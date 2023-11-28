@@ -1,8 +1,36 @@
+import os
 import string
-from typing import Tuple, Dict
+from typing import Tuple, List, Dict
 
-emails = {'apple': ['apple@apple.com', 'bigapple@apple.com', 'apple@gmail.com'], 'microsoft':['support@microsoft.com', 'microsoft@gmail.com']}
-phone_numbers = {'apple': ['5127772321', '9999999999']}
+
+def _get_data() -> List[Dict]:
+    """Get emails and phone numbers for 
+
+    Returns:
+        List[Dict]: List with structure [email dictionary, phone number dictionary]
+    """
+    emails = {}
+    phone_numbers = {}
+    files = [file for file in os.listdir('data') if file.endswith('.txt')]
+    for file in files:
+        with open(os.path.join('data', file), 'r') as f: 
+            content = f.read()
+        _, email_line, phone_line = content.split('\n')[:3]
+        
+        name = file.split('.txt')[0]
+        email_string_list = email_line.split('emails: ')[-1].strip()
+        phone_string_list = phone_line.split('numbers: ')[-1].strip()
+        
+        email_list = []
+        phone_number_list = []
+        if email_string_list != 'none':
+            email_list = email_string_list.split(',')
+        if phone_string_list != 'none':
+            phone_number_list = phone_string_list.split(',')
+        emails[name] = email_list
+        phone_numbers[name] = phone_number_list
+        
+    return [emails, phone_numbers]
 
 def _find_match(input_string: str, search_dict: Dict) -> Tuple:
     """Helper function to search through dictionary for a given string
@@ -28,6 +56,8 @@ def search_for_information(email: str=None, phone_number: str=None) -> Tuple:
     Returns:
         Tuple: If match is found, tuple with structure (company, index of email in company email list) returned. Otherwise None.
     """
+    emails, phone_numbers = _get_data()
+    
     if email:
         email = email.lower()
         return _find_match(input_string=email, search_dict=emails)

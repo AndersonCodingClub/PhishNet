@@ -1,0 +1,3 @@
+name: PayPal
+emails: service@paypal.com,support@paypal.com
+number: 4025174519

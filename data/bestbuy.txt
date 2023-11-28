@@ -1,2 +1,3 @@
-emails = no email
-numbers = 6122911000, 8882378289
+name: Best Buy
+emails: none
+numbers: 6122911000,8882378289

@@ -1,0 +1,3 @@
+name: Wells Fargo
+emails: boardcommunications@wellsfargo.com,socialcare@wellsfargo.com
+numbers: 8662493302,8008693557
