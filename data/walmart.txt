@@ -1,0 +1,2 @@
+emails = service@walmartcontacts.com ,team.service@walmartcontacts.com
+numbers = 1-800-741-5367, 614-534-1996, 1-877-291-8154 , 614-921-9866

@@ -1,0 +1,2 @@
+emails = support@microsoft.com, microsoftsupport@microsoft.com, mail.support@microsoft.com
+numebers = 800642767, +1 877 568 2495(Canada), 400 820 3800(China), +81 0120 54 2244(Japan), +44 (0)344 800 2400(United Kingdom)
